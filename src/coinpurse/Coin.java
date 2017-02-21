@@ -8,11 +8,11 @@ package coinpurse;
  * 
  */
 
-public class Coin implements Comparable<Coin> {
+public class Coin implements Valuable {
 
 	/** Value of the coin. */
 	private double value;
-	/** The currency, of course. */
+	/** The currency, default set to "Baht". */
 	private String currency = "Baht";
 
 	/**
@@ -29,7 +29,7 @@ public class Coin implements Comparable<Coin> {
 	 * Initialize a new Coin with the value and currency.
 	 * 
 	 * @param value
-	 *            is the value of coin. Curr is the currency of Coin,
+	 *            is the value of coin. Curr is the currency of Coin.
 	 */
 	public Coin(double value, String curr) {
 		this.value = value;
@@ -59,7 +59,7 @@ public class Coin implements Comparable<Coin> {
 	 * 
 	 * @param obj
 	 *            is the object which we want to check.
-	 * @return true if the value of Coin is equal. Otherwise false.
+	 * @return true if the Value and Currency of Coin is equal. Otherwise false.
 	 */
 	public boolean equals(Object obj) {
 		if (obj == null)
@@ -99,7 +99,7 @@ public class Coin implements Comparable<Coin> {
 	 * @return a String describing the Coin.
 	 */
 	public String toString() {
-		return (int) value + "-" + currency;
+		return (int) this.value + "-" + this.currency + " coin";
 	}
 
 }

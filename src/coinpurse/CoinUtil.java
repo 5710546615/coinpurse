@@ -2,10 +2,12 @@ package coinpurse;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * CoinUtil is for coin purse.
+ * CoinUtil is for valuable items purse.
  * 
  * @author Visurt Anuttivong
  * @version 571054661
@@ -15,82 +17,58 @@ import java.util.List;
 public class CoinUtil {
 
 	/**
-	 * Return a List of Coins that contains only the coins from coinlist (the
-	 * parameter) that have same currency as the currency parameter.
+	 * Return a List of valuable items that contains the valuable items from
+	 * vallist (the parameter) that have same currency as the currency
+	 * parameter.
 	 * 
-	 * @return List of Coin that contains the same currency.
-	 * @param coinList
-	 *            is the List of Coin which we want to look in and currency is
-	 *            the currency of Coin in coinlist that we want to classify.
+	 * @return List of valuable items that contains the same currency.
+	 * @param vallist
+	 *            is the List of valuable items which we want to look in and
+	 *            currency is the currency of valuable items in vallist that we
+	 *            want to classify.
 	 * 
 	 */
-	static List<Coin> filterByCurrency(List<Coin> coinlist, String currency) {
-		List<Coin> templist = new ArrayList<Coin>();
-		for (int i = 0; i < coinlist.size(); i++) {
-			if (coinlist.get(i).getCurrency().equals(currency)) {
-				templist.add(coinlist.get(i));
+	static List<Valuable> filterByCurrency(List<Valuable> vallist, String currency) {
+		List<Valuable> templist = new ArrayList<Valuable>();
+		for (int i = 0; i < vallist.size(); i++) {
+			if (vallist.get(i).getCurrency().equals(currency)) {
+				templist.add(vallist.get(i));
 			}
 		}
-		Collections.sort(templist);
+
 		return templist;
 	}
 
 	/**
-	 * Sort the coins by currency.
+	 * Sort the valuable items by currency.
 	 * 
-	 * @param coins
-	 *            is the list of coins that we want to sort by currency.
+	 * @param vallist
+	 *            is the list of valuable items that we want to sort by
+	 *            currency.
 	 * 
 	 */
-	static void sortByCurrency(List<Coin> coins) {
-		Collections.sort(coins, (coin1, coin2) -> coin1.getCurrency().compareTo(coin2.getCurrency()));
+	static void sortByCurrency(List<Valuable> vallist) {
+		Collections.sort(vallist, (a, b) -> a.getCurrency().compareTo(b.getCurrency()));
 	}
 
 	/**
-	 * Sum the value of coins for each currency that appears in the coins list.
-	 * Print the sum for each currency on a separate line.
+	 * Sum the value of valuable items for each currency. Print the sum for each
+	 * currency on a separate line.
 	 * 
-	 * @param coins
-	 *            is the list of coins that we want to sum by currency.
+	 * @param valuable
+	 *            is the list of valuable items that we want to sum by currency.
 	 * 
 	 */
-	static void sumByCurrency(List<Coin> coins) {
-		sortByCurrency(coins);
-		boolean next = false;
-		List<Coin> templist = new ArrayList<Coin>();
-
-		for (int i = 0; i < coins.size(); i++) {
-			if (i == 0 || next) {
-				templist.add(coins.get(i));
-				next = false;
-			} else if (templist.get(0).getCurrency().equals(coins.get(i).getCurrency())) {
-				templist.add(coins.get(i));
-			} else {
-				System.out.println("Sum-" + templist.get(0).getCurrency() + " = " + sum(templist) + "-"
-						+ templist.get(0).getCurrency());
-				templist.removeAll(templist);
-				next = true;
-				i--;
-			}
-
-			if (i == coins.size() - 1) {
-				System.out.println("Sum-" + templist.get(0).getCurrency() + " = " + sum(templist) + "-"
-						+ templist.get(0).getCurrency());
-			}
+	static void sumByCurrency(List<Valuable> valuable) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		for (int i = 0; i < valuable.size(); i++) {
+			int value = map.getOrDefault(valuable.get(i).getCurrency(), 0) + (int) valuable.get(i).getValue();
+			map.put(valuable.get(i).getCurrency(), value);
 		}
-	}
 
-	/**
-	 * @param coins
-	 *            is the list of coins that we want to sum.
-	 * @return the value of summing all elements in list of coins.
-	 * 
-	 */
-	public static double sum(List<Coin> coins) {
-		double sum = 0;
-		for (int i = 0; i < coins.size(); i++)
-			sum += coins.get(i).getValue();
-
-		return sum;
+		for (String word : map.keySet()) {
+			int count = map.get(word);
+			System.out.printf("Sum-%s = %d\n", word, count);
+		}
 	}
 }

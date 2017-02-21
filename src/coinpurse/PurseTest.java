@@ -97,7 +97,7 @@ public class PurseTest {
 			Coin coin = new Coin(value);
 			assertTrue(purse.insert(coin));
 			assertEquals(value, purse.getBalance(), TOL);
-			Coin[] result = purse.withdraw(value);
+			Valuable[] result = purse.withdraw(value);
 			assertTrue(result != null);
 			assertEquals(1, result.length);
 			assertSame(coin, result[0]);
@@ -121,10 +121,10 @@ public class PurseTest {
 		}
 		assertEquals(amount1 + amount2, purse.getBalance(), TOL);
 		assertEquals(10, purse.count());
-		Coin[] wd1 = purse.withdraw(amount1);
-		assertEquals(amount1, sumValue(wd1), 0.0000001);
+		Valuable[] wd1 = purse.withdraw(amount1);
+		assertEquals(amount1, sumValue(wd1), 0.00001);
 		assertEquals(amount2, purse.getBalance(), TOL);
-		Coin[] wd2 = purse.withdraw(amount2);
+		Valuable[] wd2 = purse.withdraw(amount2);
 		assertEquals(0, purse.getBalance(), TOL);
 	}
 
@@ -140,20 +140,69 @@ public class PurseTest {
 		assertNull(purse.withdraw(30));
 	}
 
+	@Test
+	public void testInsertValuable() {
+		Purse purse = new Purse(3);
+		Valuable c10 = new Coin(10);
+		Valuable bn50 = new BankNote(50);
+		Valuable fakeCoin = new Coin(0);
+		Valuable fakebn = new BankNote(0);
+		Valuable bn100 = new BankNote(100);
+		assertTrue(purse.insert(c10));
+		assertFalse(purse.isFull());
+		assertFalse(purse.insert(fakeCoin));
+		assertFalse(purse.insert(fakebn));
+		assertTrue(purse.insert(bn50));
+		assertTrue(purse.insert(bn100));
+		assertEquals(3, purse.count());
+		assertTrue(purse.isFull());
+	}
+
+	@Test
+	public void testWithdrawValuable() {
+		Purse purse = new Purse(10);
+		int[] values = { 1, 2, 5, 10, 20, 50 };
+		for (int value : values) {
+			Valuable v = new BankNote(value);
+			assertTrue(purse.insert(v));
+			assertEquals(value, purse.getBalance(), TOL);
+			Valuable[] result = purse.withdraw(value);
+			assertTrue(result != null);
+			assertEquals(1, result.length);
+			assertSame(v, result[0]);
+			assertEquals(0, purse.getBalance(), TOL);
+		}
+	}
+
+	@Test
+	public void testGetBalanceValuable() {
+		Purse purse = new Purse(3);
+		Valuable c10 = new Coin(10);
+		Valuable bn50 = new BankNote(50);
+		Valuable bn100 = new BankNote(100);
+		assertTrue(purse.insert(c10));
+		assertTrue(purse.insert(bn50));
+		assertTrue(purse.insert(bn100));
+		assertEquals(160, purse.getBalance(), TOL);
+		Valuable[] result = purse.withdraw(60);
+		assertTrue(result != null);
+		assertEquals(100, purse.getBalance(), TOL);
+	}
+
 	/**
-	 * Some the value of some coins.
+	 * Some the value of some valuable items.
 	 * 
-	 * @param coins
-	 *            array of coins
-	 * @return sum of values of the coins
+	 * @param vals
+	 *            array of Valuable.
+	 * @return sum of values of the vals.
 	 */
-	private double sumValue(Coin[] coins) {
-		if (coins == null)
+	private double sumValue(Valuable[] vals) {
+		if (vals == null)
 			return 0;
 		double sum = 0;
-		for (Coin c : coins)
-			if (c != null)
-				sum += c.getValue();
+		for (Valuable v : vals)
+			if (v != null)
+				sum += v.getValue();
 		return sum;
 	}
 }
