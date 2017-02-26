@@ -12,7 +12,6 @@ import java.util.List;
  * 
  * @author Visurt Anuttivong
  * @version 5710546615
- * 
  */
 
 public class Purse {

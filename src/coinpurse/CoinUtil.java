@@ -11,7 +11,6 @@ import java.util.Map;
  * 
  * @author Visurt Anuttivong
  * @version 571054661
- * 
  */
 
 public class CoinUtil {

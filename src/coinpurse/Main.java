@@ -6,7 +6,6 @@ package coinpurse;
  * 
  * @author Visurt Anuttivong
  * @version 5710546615
- * 
  */
 
 public class Main {

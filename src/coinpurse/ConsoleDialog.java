@@ -9,7 +9,6 @@ import java.util.Scanner;
  * 
  * @author Visurt Anuttivong
  * @version 571054661
- * 
  */
 
 public class ConsoleDialog {
@@ -65,16 +64,18 @@ public class ConsoleDialog {
 		// parse input line into numbers
 		Scanner scanline = new Scanner(inline);
 		while (scanline.hasNextDouble()) {
-			double value = scanline.nextDouble();
+			String value = scanline.next();
+			MoneyFactory factory = MoneyFactory.getInstance();
 			Valuable item;
-			if (value <= 20) {
-				item = new Coin(value);
-			} else {
-				item = new BankNote(value);
+			try {
+				item = factory.createMoney(value);
+				System.out.printf("Deposit %s... ", item.toString());
+				boolean ok = purse.insert(item);
+				System.out.println((ok ? "ok" : "FAILED"));
+			} catch (IllegalArgumentException ex) {
+				System.out.println("Sorry, " + value + "is not a valid amount.");
 			}
-			System.out.printf("Deposit %s... ", item.toString());
-			boolean ok = purse.insert(item);
-			System.out.println((ok ? "ok" : "FAILED"));
+
 		}
 		if (scanline.hasNext())
 			System.out.println("Invalid input: " + scanline.next());

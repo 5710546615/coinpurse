@@ -8,56 +8,32 @@ package coinpurse;
  * 
  */
 
-public class BankNote implements Valuable {
+public class BankNote extends AbstractValuable {
 
-	/** counter of serial number. */
-	private static long nextSerialNumber = 1000000;
-	/** value of banknote. */
-	private double value;
-	/** The currency, default set to "Baht". */
-	private String currency = "Baht";
 	/** serial number of banknote. */
 	private long serialNumber;
+	/** The currency, default set to "Baht". */
+	private static String default_currency = "Baht";
 
 	/**
 	 * Initialize a new Banknote with the value.
 	 * 
 	 * @param value
-	 *            is the value of banknote.
+	 *            is the value of Banknote.
 	 */
 	public BankNote(double value) {
-		this.value = value;
-		this.serialNumber = nextSerialNumber++;
+		super(value, default_currency);
 	}
 
 	/**
 	 * Initialize a new Banknote with the value and currency.
 	 * 
 	 * @param value
-	 *            is the value of Banknote. Curr is the currency of Banknote,
+	 *            is the value of Banknote. currency is the currency of
+	 *            Banknote.
 	 */
 	public BankNote(double value, String currency) {
-		this.value = value;
-		this.currency = currency;
-		this.serialNumber = nextSerialNumber++;
-	}
-
-	/**
-	 * Get the value of the Banknote.
-	 * 
-	 * @return the value of the Banknote.
-	 */
-	public double getValue() {
-		return this.value;
-	}
-
-	/**
-	 * Get the currency of the Banknote.
-	 * 
-	 * @return the currency of the Banknote.
-	 */
-	public String getCurrency() {
-		return this.currency;
+		super(value, currency);
 	}
 
 	/**
@@ -70,26 +46,13 @@ public class BankNote implements Valuable {
 	}
 
 	/**
-	 * To check that Banknote is equal or not.
+	 * Set the serial number of Banknote.
 	 * 
-	 * @param obj
-	 *            is the object which we want to check.
-	 * @return true if the value and Currency of Banknote is equal. Otherwise
-	 *         false.
+	 * @param serialNumber
+	 *            is the serial number which we want to set.
 	 */
-	public boolean equals(Object obj) {
-		if (obj == null)
-			return false;
-
-		if (obj.getClass() != this.getClass())
-			return false;
-
-		BankNote banknote = (BankNote) obj;
-
-		if (this.getValue() == banknote.getValue() && this.getCurrency().equals(banknote.getCurrency()))
-			return true;
-
-		return false;
+	public void setSerial(long serialNumber) {
+		this.serialNumber = serialNumber;
 	}
 
 	/**
@@ -98,6 +61,6 @@ public class BankNote implements Valuable {
 	 * @return a String describing the Banknote.
 	 */
 	public String toString() {
-		return (int) this.value + "-" + this.currency + " note [" + this.serialNumber + "]";
+		return (int) this.getValue() + "-" + this.getCurrency() + " note [" + this.serialNumber + "]";
 	}
 }
