@@ -21,40 +21,11 @@ public class ThaiMoneyFactory extends MoneyFactory {
 	 *            is the value of Valuable.
 	 */
 	public Valuable createMoney(double value) {
-		if (value == 1)
-			return new Coin(1, "Baht");
+		if (value == 1 || value == 5 || value == 10)
+			return new Coin(value, "Baht");
 
-		if (value == 5)
-			return new Coin(5, "Baht");
-
-		if (value == 10)
-			return new Coin(10, "Baht");
-
-		if (value == 20) {
-			BankNote temp = new BankNote(20, "Baht");
-			temp.setSerial(nextSerialNumber++);
-			return temp;
-		}
-		if (value == 50) {
-			BankNote temp = new BankNote(50, "Baht");
-			temp.setSerial(nextSerialNumber++);
-			return temp;
-		}
-
-		if (value == 100) {
-			BankNote temp = new BankNote(100, "Baht");
-			temp.setSerial(nextSerialNumber++);
-			return temp;
-		}
-
-		if (value == 500) {
-			BankNote temp = new BankNote(500, "Baht");
-			temp.setSerial(nextSerialNumber++);
-			return temp;
-		}
-
-		if (value == 1000) {
-			BankNote temp = new BankNote(1000, "Baht");
+		if (value == 20 || value == 50 || value == 100 || value == 500 || value == 1000) {
+			BankNote temp = new BankNote(value, "Baht");
 			temp.setSerial(nextSerialNumber++);
 			return temp;
 		}

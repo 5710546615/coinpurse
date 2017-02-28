@@ -1,5 +1,7 @@
 package coinpurse;
 
+import java.text.DecimalFormat;
+
 /**
  * Coin represents coinage (money) with a fixed value and currency.
  * 
@@ -38,7 +40,10 @@ public class Coin extends AbstractValuable {
 	 * @return a String describing the Coin.
 	 */
 	public String toString() {
-		return (int) this.getValue() + "-" + this.getCurrency() + " coin";
+		DecimalFormat format = new DecimalFormat();
+		format.setDecimalSeparatorAlwaysShown(false);
+
+		return format.format(this.getValue()) + "-" + this.getCurrency() + " coin";
 	}
 
 }

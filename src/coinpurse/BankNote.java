@@ -1,5 +1,7 @@
 package coinpurse;
 
+import java.text.DecimalFormat;
+
 /**
  * Banknote represents money with a fixed value, currency and serial number.
  * 
@@ -61,6 +63,12 @@ public class BankNote extends AbstractValuable {
 	 * @return a String describing the Banknote.
 	 */
 	public String toString() {
-		return (int) this.getValue() + "-" + this.getCurrency() + " note [" + this.serialNumber + "]";
+		DecimalFormat format = new DecimalFormat();
+		format.setDecimalSeparatorAlwaysShown(false);
+
+		if (this.serialNumber == 0)
+			return format.format(this.getValue()) + "-" + this.getCurrency() + " note";
+
+		return format.format(this.getValue()) + "-" + this.getCurrency() + " note [" + this.getSerial() + "]";
 	}
 }
